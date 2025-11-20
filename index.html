@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secret Santa Name Draw</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              santa: {
+                red: '#D42426',
+                darkRed: '#9B1B1D',
+                white: '#F0F0F0',
+                gold: '#E5C100',
+                skin: '#FFCCB0',
+                rosy: '#E88E8E',
+              },
+              forest: {
+                dark: '#0F2A1D',
+                green: '#1A472A',
+                light: '#2D6A4F',
+              }
+            },
+            fontFamily: {
+              pixel: ['"Press Start 2P"', 'cursive'],
+              serif: ['"Playfair Display"', 'serif'],
+            },
+            animation: {
+              'snow': 'snow 10s linear infinite',
+              'shake': 'shake 0.5s cubic-bezier(.36,.07,.19,.97) both',
+              'float': 'float 3s ease-in-out infinite',
+              'bounce-up': 'bounceUp 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards',
+              'blink': 'blink 1s step-end infinite',
+              'breathe': 'breathe 4s ease-in-out infinite',
+            },
+            keyframes: {
+              snow: {
+                '0%': { transform: 'translateY(-10vh)' },
+                '100%': { transform: 'translateY(110vh)' },
+              },
+              shake: {
+                '10%, 90%': { transform: 'translate3d(-1px, 0, 0) rotate(-1deg)' },
+                '20%, 80%': { transform: 'translate3d(2px, 0, 0) rotate(2deg)' },
+                '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0) rotate(-4deg)' },
+                '40%, 60%': { transform: 'translate3d(4px, 0, 0) rotate(4deg)' },
+              },
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-5px)' },
+              },
+              bounceUp: {
+                '0%': { transform: 'translateY(100%) scale(0.5)', opacity: '0' },
+                '100%': { transform: 'translateY(0) scale(1)', opacity: '1' },
+              },
+              blink: {
+                '0%, 100%': { opacity: '1' },
+                '50%': { opacity: '0' },
+              },
+              breathe: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-3px)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Pixel Art Utility */
+      .pixelated {
+        image-rendering: pixelated;
+      }
+      
+      /* Scrollbar styling for result card content */
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 8px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #D42426;
+        border-radius: 4px;
+      }
+      
+      body {
+        background-color: #0F2A1D;
+        margin: 0;
+        overflow-x: hidden;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/"
+  }
+}
+</script>
+</head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
