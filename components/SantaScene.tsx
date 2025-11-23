@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { Participant } from '../types';
-import PixelSanta from './PixelSanta';
+import PixelSantaNew from './PixelSantaNew';
+import PixelBucket from './PixelBucket';
 import Typewriter from './Typewriter';
 import ResultCard from './ResultCard';
 
@@ -79,17 +80,17 @@ const SantaScene: React.FC<SantaSceneProps> = ({ user, onReset }) => {
         </div>
 
         {/* Santa Sprite - Bottom Left */}
-        <div className="absolute bottom-12 -left-4 md:left-0 z-10">
-            <PixelSanta isShaking={false} />
+        <div className="absolute bottom-12 -left-8 md:left-0 z-10">
+            <PixelSantaNew size={300} className="animate-breathe" />
         </div>
         
         {/* Pixel Art Bucket Button - Positioned near Santa's feet */}
-        <div className="absolute bottom-4 left-32 md:left-40 z-20">
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 transform z-20">
             <button
                 onClick={handleTap}
                 disabled={isRevealed}
                 className={`
-                    group relative w-32 h-32 md:w-40 md:h-40 
+                    group relative w-40 h-40 md:w-48 md:h-48 
                     transition-all duration-100 
                     outline-none focus:outline-none
                     ${isRevealed 
@@ -100,29 +101,10 @@ const SantaScene: React.FC<SantaSceneProps> = ({ user, onReset }) => {
                 `}
                 aria-label="Tap the bucket"
             >
-                {/* PIXEL ART BUCKET SVG */}
-                <svg viewBox="0 0 32 32" className="w-full h-full drop-shadow-xl" shapeRendering="crispEdges">
-                    {/* Handle (Dark Gray) */}
-                    <path d="M10 6 h 12 v 2 h 2 v 2 h -2 v -2 h -12 v 2 h -2 v -2 h 2 v -2 Z" fill="#4A4A4A" />
-                    
-                    {/* Bucket Main Body (Wood Brown) */}
-                    <path d="M4 10 h 24 v 2 h -2 v 16 h -2 v 2 h -16 v -2 h -2 v -16 h -2 Z" fill="#5D4037" />
-                    
-                    {/* Bucket Shading (Darker Wood) */}
-                    <path d="M6 12 h 2 v 14 h -2 Z" fill="#3E2723" opacity="0.5" />
-                    <path d="M24 12 h 2 v 14 h -2 Z" fill="#3E2723" opacity="0.5" />
-                    <path d="M8 26 h 16 v 2 h -16 Z" fill="#3E2723" opacity="0.5" />
-
-                    {/* Gold Hoops */}
-                    <path d="M4 12 h 24 v 2 h -24 Z" fill="#FFB300" />
-                    <path d="M6 22 h 20 v 2 h -20 Z" fill="#FFB300" />
-
-                    {/* Inside Color (Top lip) */}
-                    <path d="M6 10 h 20 v 1 h -20 Z" fill="#3E2723" />
-                </svg>
+                <PixelBucket size="100%" className="w-full h-full drop-shadow-xl" />
 
                 {/* Text Overlay */}
-                <div className="absolute top-[55%] left-0 right-0 text-center">
+                <div className="absolute top-[58%] left-0 right-0 text-center">
                      <span className={`
                         font-pixel text-[10px] md:text-xs leading-none tracking-widest
                         ${isRevealed ? 'text-gray-400' : 'text-[#FFB300] drop-shadow-[1px_1px_0_#000]'}

@@ -88,7 +88,7 @@ const Typewriter: React.FC<TypewriterProps> = ({ lines, className, tailPosition 
         
         <p className="font-pixel text-xs md:text-sm leading-relaxed text-gray-900 min-h-[3rem]">
             {displayedText}
-            <span className="animate-blink inline-block w-2 h-4 bg-santa-red ml-1 align-middle"></span>
+            <span className="animate-blink inline-block w-1.5 h-3 bg-santa-red ml-1 align-middle -translate-y-[3px]"></span>
         </p>
     </div>
   );

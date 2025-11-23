@@ -28,17 +28,23 @@ const App: React.FC = () => {
       
       {/* --- BACKGROUND LAYERS --- */}
       
-      {/* Layer 1: Login State - Dark Forest Green Gradient */}
+      {/* Layer 1: Login State - Dedicated background (with gradient fallback) */}
       <div 
-        className={`absolute inset-0 bg-[radial-gradient(circle_at_center,_#1A472A_0%,_#0F2A1D_100%)] transition-opacity duration-1000 ease-in-out ${appState === AppState.LOGIN ? 'opacity-100' : 'opacity-0'}`}
+        className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${appState === AppState.LOGIN ? 'opacity-100' : 'opacity-0'}`}
+        style={{
+          backgroundImage: `url('/login_background.png'), radial-gradient(circle at center, #1A472A 0%, #0F2A1D 100%)`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
       ></div>
 
-      {/* Layer 2: Santa Scene - Pixel Art Winter Village */}
+      {/* Layer 2: Santa Scene - Dedicated background asset */}
       <div 
         className={`absolute inset-0 bg-cover bg-center bg-no-repeat pixelated transition-opacity duration-1000 ease-in-out ${appState === AppState.SANTA_SCENE ? 'opacity-100' : 'opacity-0'}`}
         style={{
-          // Using a high-quality pixel art winter night scene
-          backgroundImage: `url('https://64.media.tumblr.com/e0f32969529527872435e19375503054/tumblr_or0h4p5l8I1w6dn9zo1_1280.png')`,
+          // First URL lets you drop in a local santa background without touching the login art.
+          backgroundImage: `url('/santa_background.png'), url('https://64.media.tumblr.com/e0f32969529527872435e19375503054/tumblr_or0h4p5l8I1w6dn9zo1_1280.png')`,
           imageRendering: 'pixelated'
         }}
       >
@@ -69,7 +75,7 @@ const App: React.FC = () => {
       {/* Footer */}
       <footer className="absolute bottom-4 text-center w-full pointer-events-none z-20">
         <p className="font-pixel text-[8px] text-santa-white/50 drop-shadow-md">
-          Secret Santa App &copy; {new Date().getFullYear()}
+          Secret Santa &copy; {new Date().getFullYear()}
         </p>
       </footer>
     </div>

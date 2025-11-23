@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PARTICIPANTS } from '../data';
+import { fetchParticipants, getFallbackParticipants } from '../data';
 import { Participant } from '../types';
 
 interface LoginScreenProps {
@@ -7,14 +7,20 @@ interface LoginScreenProps {
 }
 
 const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
+  const [participants, setParticipants] = useState<Participant[]>(getFallbackParticipants());
+  const [loading, setLoading] = useState(true);
   const [selectedName, setSelectedName] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isFading, setIsFading] = useState(false);
 
+  React.useEffect(() => {
+    fetchParticipants().then(setParticipants).finally(() => setLoading(false));
+  }, []);
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    const user = PARTICIPANTS.find(
+    const user = participants.find(
       (p) => p.person_name === selectedName && p.password === password
     );
 
@@ -49,11 +55,11 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
             <select 
               value={selectedName}
               onChange={(e) => setSelectedName(e.target.value)}
-              className="w-full p-3 bg-forest-light text-santa-white border-2 border-forest-light focus:border-santa-gold outline-none font-serif text-lg rounded"
+              className="w-full p-3 bg-forest-light text-santa-white border-2 border-forest-light focus:border-santa-gold outline-none font-pixel text-base md:text-[10px] rounded"
               required
             >
-              <option value="" disabled>Select your name...</option>
-              {PARTICIPANTS.map((p) => (
+              <option value="" disabled>Select name</option>
+              {participants.map((p) => (
                 <option key={p.person_name} value={p.person_name}>
                   {p.person_name}
                 </option>
@@ -63,14 +69,22 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
 
           <div className="text-left">
             <label className="font-pixel text-[10px] text-santa-skin mb-2 block uppercase tracking-wider">
-              Secret Word
+              Super Secret Number?
             </label>
             <input 
               type="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 bg-forest-light text-santa-white border-2 border-forest-light focus:border-santa-gold outline-none font-serif text-lg rounded tracking-widest"
-              placeholder="••••••"
+              onChange={(e) => {
+                const digitsOnly = e.target.value.replace(/\D/g, '').slice(0, 6);
+                setPassword(digitsOnly);
+              }}
+              inputMode="numeric"
+              pattern="[0-9]{6}"
+              minLength={6}
+              maxLength={6}
+              title="Enter the 6-digit code"
+              className="w-full p-3 bg-forest-light text-santa-white border-2 border-forest-light focus:border-santa-gold outline-none font-pixel text-base md:text-[10px] rounded tracking-widest"
+              placeholder="6-digit SSN"
               required
             />
           </div>
@@ -83,9 +97,10 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLoginSuccess }) => {
 
           <button 
             type="submit"
-            className="mt-4 bg-santa-red hover:bg-santa-darkRed text-white font-pixel text-sm py-4 px-6 rounded shadow-lg transform transition hover:scale-105 active:translate-y-1 border-b-4 border-santa-darkRed"
+            disabled={loading}
+            className="mt-4 bg-santa-red hover:bg-santa-darkRed text-white font-pixel text-sm py-4 px-6 rounded shadow-lg transform transition hover:scale-105 active:translate-y-1 border-b-4 border-santa-darkRed disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Start Drawing
+            {loading ? 'Loading...' : 'Start Drawing'}
           </button>
         </form>
       </div>
