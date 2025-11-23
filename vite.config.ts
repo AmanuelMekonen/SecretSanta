@@ -6,8 +6,7 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
       // Base path for GitHub Pages (adjust if your repo name differs)
-      //base: '/SecretSanta/',
-      base: '/my-repo/',
+      base: '/SecretSanta/',
 
       server: {
         port: 3000,
