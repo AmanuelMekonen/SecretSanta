@@ -16,7 +16,7 @@ const FALLBACK_PARTICIPANTS: Participant[] = [
 
 let cachedParticipants: Participant[] | null = null;
 
-const csvUrl = "/participants.csv";
+const csvUrl = `${import.meta.env.BASE_URL || '/'}participants.csv`;
 
 function parseCsv(text: string): Participant[] {
   const rows = text.trim().split(/\r?\n/);
