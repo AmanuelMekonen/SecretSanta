@@ -28,11 +28,11 @@ const App: React.FC = () => {
       
       {/* --- BACKGROUND LAYERS --- */}
       
-      {/* Layer 1: Login State - Dedicated background (with gradient fallback) */}
+      {/* Layer 1: Login State - Gradient background (no external asset dependency) */}
       <div 
         className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${appState === AppState.LOGIN ? 'opacity-100' : 'opacity-0'}`}
         style={{
-          backgroundImage: `url('/login_background.png'), radial-gradient(circle at center, #1A472A 0%, #0F2A1D 100%)`,
+          backgroundImage: `radial-gradient(circle at center, #1A472A 0%, #0F2A1D 100%)`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -43,8 +43,8 @@ const App: React.FC = () => {
       <div 
         className={`absolute inset-0 bg-cover bg-center bg-no-repeat pixelated transition-opacity duration-1000 ease-in-out ${appState === AppState.SANTA_SCENE ? 'opacity-100' : 'opacity-0'}`}
         style={{
-          // First URL lets you drop in a local santa background without touching the login art.
-          backgroundImage: `url('/santa_background.png'), url('https://64.media.tumblr.com/e0f32969529527872435e19375503054/tumblr_or0h4p5l8I1w6dn9zo1_1280.png')`,
+          // Using a hosted pixel art winter night scene to avoid missing local assets.
+          backgroundImage: `url('https://64.media.tumblr.com/e0f32969529527872435e19375503054/tumblr_or0h4p5l8I1w6dn9zo1_1280.png')`,
           imageRendering: 'pixelated'
         }}
       >
