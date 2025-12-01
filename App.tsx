@@ -4,10 +4,13 @@ import Snowfall from './components/Snowfall';
 import LoginScreen from './components/LoginScreen';
 import SantaScene from './components/SantaScene';
 import { Participant, AppState } from './types';
+import treeBg from './Tree.png';
+import treeBgPdf from './Tree.pdf';
 
 const App: React.FC = () => {
   const [appState, setAppState] = useState<AppState>(AppState.LOGIN);
   const [currentUser, setCurrentUser] = useState<Participant | null>(null);
+  const [sceneRevealed, setSceneRevealed] = useState(false);
 
   const handleLoginSuccess = (user: Participant) => {
     setCurrentUser(user);
@@ -21,6 +24,7 @@ const App: React.FC = () => {
     }
     setCurrentUser(null);
     setAppState(AppState.LOGIN);
+    setSceneRevealed(false);
   };
 
   return (
@@ -43,8 +47,12 @@ const App: React.FC = () => {
       <div 
         className={`absolute inset-0 bg-cover bg-center bg-no-repeat pixelated transition-opacity duration-1000 ease-in-out ${appState === AppState.SANTA_SCENE ? 'opacity-100' : 'opacity-0'}`}
         style={{
-          // Using a hosted pixel art winter night scene to avoid missing local assets.
-          backgroundImage: `url('https://64.media.tumblr.com/e0f32969529527872435e19375503054/tumblr_or0h4p5l8I1w6dn9zo1_1280.png')`,
+          // Prefer the PDF export, but fall back to the original PNG for browsers that won't render PDF as a background.
+          backgroundImage: `url(${treeBgPdf}), url(${treeBg})`,
+          backgroundSize: '700px auto',
+          // Raise the tree higher before reveal; ease it down after reveal.
+          backgroundPosition: sceneRevealed ? 'center -38%' : 'center -138%',
+          backgroundRepeat: 'no-repeat',
           imageRendering: 'pixelated'
         }}
       >
@@ -67,7 +75,7 @@ const App: React.FC = () => {
         )}
 
         {appState === AppState.SANTA_SCENE && currentUser && (
-          <SantaScene user={currentUser} onReset={handleReset} />
+          <SantaScene user={currentUser} onReset={handleReset} onRevealChange={setSceneRevealed} />
         )}
         
       </main>

@@ -9,9 +9,10 @@ import ResultCard from './ResultCard';
 interface SantaSceneProps {
   user: Participant;
   onReset: () => void;
+  onRevealChange?: (revealed: boolean) => void;
 }
 
-const SantaScene: React.FC<SantaSceneProps> = ({ user, onReset }) => {
+const SantaScene: React.FC<SantaSceneProps> = ({ user, onReset, onRevealChange }) => {
   const [taps, setTaps] = useState(0);
   const [isShaking, setIsShaking] = useState(false);
   
@@ -38,6 +39,12 @@ const SantaScene: React.FC<SantaSceneProps> = ({ user, onReset }) => {
 
   const isRevealed = taps >= 3;
 
+  React.useEffect(() => {
+    if (onRevealChange) {
+      onRevealChange(isRevealed);
+    }
+  }, [isRevealed, onRevealChange]);
+
   const getButtonText = () => {
     if (taps === 0) return "TAP HERE";
     if (taps === 1) return "AGAIN!";
@@ -62,14 +69,16 @@ const SantaScene: React.FC<SantaSceneProps> = ({ user, onReset }) => {
   ], [user.assigned_person]);
 
   return (
-    <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-center lg:items-start gap-8 lg:gap-16 relative z-10 pt-12">
+    <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-center lg:items-start gap-8 lg:gap-16 relative z-10 pt-12 md:pt-20 translate-y-0 md:translate-y-6">
       
       {/* --- SANTA & BUCKET AREA --- */}
       {/* Container sized to hold Santa on left and Bubble on right */}
       <div className="relative w-full max-w-[500px] h-[400px] md:h-[500px] flex-shrink-0 mt-8 lg:mt-0">
         
         {/* Speech Bubble - Top Right */}
-        <div className="absolute top-0 right-0 md:-right-8 z-30 w-48 md:w-56">
+        <div
+          className={`absolute ${isRevealed ? 'top-42 md:top-46 right-0 md:-right-6' : 'top-16 md:top-18 right-0 md:-right-8'} z-30 w-48 md:w-56`}
+        >
             {/* Key prop forces remount when switching between initial and revealed states */}
             <Typewriter 
               key={isRevealed ? 'revealed' : 'initial'}
@@ -80,12 +89,12 @@ const SantaScene: React.FC<SantaSceneProps> = ({ user, onReset }) => {
         </div>
 
         {/* Santa Sprite - Bottom Left */}
-        <div className="absolute bottom-12 -left-8 md:left-0 z-10">
+        <div className={`absolute ${isRevealed ? 'bottom-[-20px] md:bottom-[-12px]' : 'bottom-[-64px] md:bottom-[-54px]'} -left-8 md:left-0 z-10`}>
             <PixelSantaNew size={300} className="animate-breathe" />
         </div>
         
         {/* Pixel Art Bucket Button - Positioned near Santa's feet */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 transform z-20">
+        <div className={`absolute ${isRevealed ? 'bottom-[-44px] md:bottom-[-34px]' : 'bottom-[-110px] md:bottom-[-94px]'} left-1/2 -translate-x-1/2 transform z-20`}>
             <button
                 onClick={handleTap}
                 disabled={isRevealed}
@@ -117,7 +126,7 @@ const SantaScene: React.FC<SantaSceneProps> = ({ user, onReset }) => {
       </div>
 
       {/* --- RESULT CARD --- */}
-      <div className="w-full max-w-md min-h-[200px] lg:mt-0 flex items-center justify-center px-4">
+      <div className="w-full max-w-md min-h-[200px] mt-4 md:mt-6 lg:mt-10 flex items-center justify-center px-4">
         {isRevealed ? (
             <ResultCard data={user} isVisible={isRevealed} />
         ) : (
