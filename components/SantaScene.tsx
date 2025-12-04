@@ -52,13 +52,15 @@ const SantaScene: React.FC<SantaSceneProps> = ({ user, onReset, onRevealChange }
     return "DONE";
   };
 
+  const firstName = user.first_name || user.person_name.split(/\s+/)[0] || user.person_name;
+
   // Pre-reveal dialogue
   const initialLines = useMemo(() => [
     `Ho ho ho!`,
-    `Hello, ${user.person_name}!`,
+    `Hello, ${firstName}!`,
     "Tap the bucket...",
     "Draw a name!",
-  ], [user.person_name]);
+  ], [firstName]);
 
   // Post-reveal dialogue
   const revealedLines = useMemo(() => [

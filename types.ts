@@ -3,6 +3,7 @@ export interface Participant {
   password: string;
   assigned_person: string;
   assigned_person_interests: string;
+  first_name?: string;
 }
 
 export enum AppState {
