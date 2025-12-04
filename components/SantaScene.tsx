@@ -53,22 +53,34 @@ const SantaScene: React.FC<SantaSceneProps> = ({ user, onReset, onRevealChange }
   };
 
   const firstName = user.first_name || user.person_name.split(/\s+/)[0] || user.person_name;
+  const assignedFirst =
+    (user.assigned_person && user.assigned_person.split(/\s+/)[0]) || user.assigned_person;
+  const lowerFirst = firstName.trim().toLowerCase();
+  const isTJ = lowerFirst.startsWith('tj');
+  const hasBonusGreeting = ['tj', 'james', 'wesley'].some((n) => lowerFirst.startsWith(n));
+  const isBrittany = lowerFirst.startsWith('brittany');
 
   // Pre-reveal dialogue
   const initialLines = useMemo(() => [
     `Ho ho ho!`,
     `Hello, ${firstName}!`,
+    ...(isTJ ? ["I heard you're into Dude's cheeks"] : []),
     "Tap the bucket...",
     "Draw a name!",
-  ], [firstName]);
+  ], [firstName, isTJ, lowerFirst]);
 
   // Post-reveal dialogue
   const revealedLines = useMemo(() => [
+    ...(hasBonusGreeting ? ["Yaaa good boooy!"] : []),
     "A wonderful choice!",
-    `Shh... don't tell ${user.assigned_person}!`,
+    `Shh... don't tell ${assignedFirst}!`,
+    "Or else ...",
     "Have a great Christmas!",
+    ...(isBrittany ? ["Give Twinky a big old hug for me!"] : []),
+    ...(isTJ ? ["And stop sniffing after scratching, TJ!"] : []),
+    ...(isTJ ? ["you know waht im talking about"] : []),
     "Ho ho ho!",
-  ], [user.assigned_person]);
+  ], [assignedFirst, hasBonusGreeting, isTJ, isBrittany]);
 
   return (
     <div className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-center lg:items-start gap-8 lg:gap-16 relative z-10 pt-12 md:pt-20 translate-y-0 md:translate-y-6">
